@@ -3,19 +3,19 @@ const fastify = require("fastify");
 const path = require("path");
 
 const server = fastify(
-        {
-            https:{
-                key:fs.readFileSync(path.join(__dirname, "./tls", "producer-private-key.key")),
-                cert:fs.readFileSync(path.join(__dirname, "../shared/tls", "producer-certificate.cert"))
-            }
-        }
+        // {
+        //     https:{
+        //         key:fs.readFileSync(path.join(__dirname, "./tls", "producer-private-key.key")),
+        //         cert:fs.readFileSync(path.join(__dirname, "../shared/tls", "producer-certificate.cert"))
+        //     }
+        // }
 );
 
 const HOST = process.env.HOST || "127.0.0.1";
 const PORT = process.env.PORT || 4000;
 
 server.get("/recipes/:id", async(req, reply) => {
-    const id = req.params.id;
+    const id = parseInt(req.params.id);
     if(id !== 42){
         reply.statusCode = 404;
         return { error: "not_found" }
