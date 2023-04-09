@@ -4,15 +4,12 @@ const PORT = process.env.PORT || 4000;
 
 const server = fastify();
 
-console.log(`worker pid=${process.pid}`);
-
 server.get("/:limit", async(req, reply) => {
+    await sleep(10);
     return String(fibonacci(Number(req.params.limit)));
 });
 
-server.listen(PORT, HOST, () => {
-    console.log(`Producer running at http://${HOST}:${PORT}`)
-})
+server.listen(PORT, HOST)
 
 function fibonacci(limit){
     let prev = 1n;
@@ -26,4 +23,8 @@ function fibonacci(limit){
         limit--;
     }
     return next;
+}
+
+function sleep(ms){
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
