@@ -12,6 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "fastify": "^3.2.1",
-    "node-fetch": "^2.6.9"
+    "middie": "^5.1.0",
+    "node-fetch": "^2.6.9",
+    "statsd-client": "^0.4.4"
   }
 }

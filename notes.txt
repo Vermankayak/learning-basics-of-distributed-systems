@@ -1,0 +1,37 @@
+In docker compose.yml file
+
+1. For elasticsearch:
+    node.name=elasticsearch: Ye variable Elasticsearch ke node ka naam set karta hai. Yahan humne node ka naam "elasticsearch" rakha hai.
+
+    cluster.initial_master_nodes=elasticsearch: Ye variable cluster ke initial master nodes ko set karta hai. Yahan humne sirf ek master node set kiya hai, jiska naam "elasticsearch" hai. Yeh zaroori hai cluster ko sahi tarah se shuru karne ke liye.
+
+    bootstrap.memory_lock=true:  bootstrap.memory_lock=true, memory locking ke baare mein hai. Memory locking ek feature hai jo Elasticsearch ke heap memory ko operating system dwara swap area mein move hone se rokta hai.
+
+    Jab hum Elasticsearch ko run karte hain, toh uske liye heap memory allocate hoti hai. Heap memory mein Elasticsearch apne data structures aur objects ko store karta hai. Kabhi-kabhi operating system (OS) ye memory ko swap area mein move kar deta hai, jisse system ke performance par negative asar pad sakta hai.
+
+    Memory locking ko enable karke (bootstrap.memory_lock=true), hum is performance issue ko rok sakte hain. Is feature ko enable karne se Elasticsearch ki heap memory swap area mein move nahi hogi, jisse performance behtar rahegi.
+
+    ES_JAVA_OPTS=-Xms512m -Xmx512m: Ye variable Elasticsearch ke liye Java heap memory ke size ko set karta hai. Heap memory woh memory hoti hai jahan Elasticsearch apne data structures aur objects ko store karta hai. -Xms512m se heap memory ka initial size 512 MB set hota hai aur -Xmx512m se heap memory ka maximum size bhi 512 MB set hota hai. Ye setting memory consumption ko control karne mein help karti hai.
+
+    What is swap area?
+    Swap area ek operating system (OS) ka hissa hota hai, jiska use tab hota hai jab RAM (Random Access Memory) kam pad jaati hai ya puri tarah se bhar jaati hai. Swap area, hard disk ya SSD mein ek alag section hota hai, jahan system RAM mein jagah na hone par ya low memory conditions mein, temporarily data ko store karne ke liye use hota hai.
+
+    Jab kisi application ya process ko RAM mein jagah nahi milti, tab OS kuch data ko RAM se swap area mein move kar deta hai, jisse RAM mein thodi si jagah khali ho jaati hai aur dusre processes ya applications ko chalane ke liye jagah mil jaati hai. Swap area ki madad se system hang ya crash hone se bach jaata hai.
+
+    Lekin, swap area hard disk ya SSD par hone ke kaaran, RAM se slow hota hai. Agar kisi application ka data swap area mein move ho jaata hai, toh us application ki performance par negative asar pad sakta hai. Isliye, memory locking jaise features ka use karke, hum kisi application ke liye zaroori memory ko swap area mein move hone se rok sakte hain, jisse performance behtar rahegi.
+
+2.
+ulimits se hum Docker container ke liye Unix/Linux system ke resource limits ko set kar sakte hain. Yeh limits container ke resources ko manage karne mein madad karte hain. Is case mein, hum memlock resource limit set kar rahe hain.
+
+memlock se hum process ke liye memory lock limit set karte hain. Memory locking feature se hum kisi process ki memory ko swap area mein move hone se rok sakte hain, jisse process ki performance behtar hoti hai.
+
+soft aur hard do tarah ke limits hote hain:
+
+soft: Ye ek temporary limit hai, jo user apne process ke liye set kar sakta hai. Soft limit badhaya ya kam kiya ja sakta hai, lekin hard limit se zyada nahi ho sakta.
+
+hard: Ye ek permanent limit hai, jo system administrator set karta hai. Ek baar hard limit set ho jaaye, toh usse kam karne ke liye system reboot karna padta hai.
+
+Is case mein, humne soft aur hard dono ko -1 set kiya hai, jiska matlab hai ki memory locking ke liye koi bhi limit nahi hai. Yani, container ke andar jitni bhi memory chahiye, woh lock ki ja sakti hai. Ye setting Elasticsearch ke liye memory locking ko enable karne aur performance issues se bachne mein madad karti hai.
+
+docker run -p 8080:80 -p 8125:8125/udp -it --name distnode-graphite graphiteapp/graphite-statsd:1.1.6-1
+Unable to find image 'graphiteapp/graphite-statsd:1.1.6-1
