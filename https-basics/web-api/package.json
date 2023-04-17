@@ -11,9 +11,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.18.2",
     "fastify": "^3.2.1",
     "middie": "^5.1.0",
     "node-fetch": "^2.6.9",
-    "statsd-client": "^0.4.4"
+    "statsd-client": "^0.4.4",
+    "zipkin": "^0.22.0",
+    "zipkin-context-cls": "^0.22.0",
+    "zipkin-instrumentation-express": "^0.22.0",
+    "zipkin-instrumentation-fetch": "^0.22.0",
+    "zipkin-lite": "^0.1.1",
+    "zipkin-transport-http": "^0.22.0"
   }
 }
